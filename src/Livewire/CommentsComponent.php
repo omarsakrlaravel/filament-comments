@@ -32,6 +32,8 @@ class CommentsComponent extends Component implements HasForms
             return $form;
         }
 
+        $tenant = Filament::getTenant();
+
         return $form
             ->schema([
                 Forms\Components\RichEditor::make('comment')
@@ -39,7 +41,19 @@ class CommentsComponent extends Component implements HasForms
                     ->required()
                     ->placeholder(__('filament-comments::filament-comments.comments.placeholder'))
                     ->extraInputAttributes(['style' => 'min-height: 6rem'])
-                    ->toolbarButtons(config('filament-comments.toolbar_buttons'))
+                    ->toolbarButtons(config('filament-comments.toolbar_buttons')),
+
+                Forms\Components\Select::make( 'organization_id' )
+                    ->label( 'Organization' )
+                    ->required()
+                    ->searchable()
+                    ->preload()
+                    ->relationship( 'organization', 'name',
+                        modifyQueryUsing: fn( Builder $query ) => $query->where('parent_id', $tenant->id),
+                    )
+                    ->hidden( function () use ($tenant) {
+                        return !empty($tenant->parent_id);
+                    } ),
             ])
             ->statePath('data');
     }

@@ -1,3 +1,6 @@
+@php
+    $tenant = \Filament\Facades\Filament::getTenant();
+@endphp
 <div class="flex flex-col h-full space-y-4">
     @if (auth()->user()->can('create', \Parallax\FilamentComments\Models\FilamentComment::class))
         <div class="space-y-4">
@@ -30,15 +33,10 @@
 
                                     <div class="text-xs font-medium text-gray-400 dark:text-gray-500">
                                         {{ $comment->created_at->diffForHumans() }}
+                                        @if($comment->organization && (empty($tenant) || $tenant->id != $comment->organization->id))
+                                            · {{ $comment->organization->name }}
+                                        @endif
                                     </div>
-                                    @php
-                                        $tenant = \Filament\Facades\Filament::getTenant();
-                                    @endphp
-                                    @if($comment->organization && (empty($tenant) || $tenant->id == $comment->organization->id))
-                                        <div class="text-xs font-medium text-gray-400 dark:text-gray-500">
-                                            Organization: {{ $comment->organization->name }}
-                                        </div>
-                                    @endif
                                 </div>
 
                                 @if (auth()->user()->can('delete', $comment))
