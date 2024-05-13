@@ -13,6 +13,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('subject_type');
             $table->unsignedBigInteger('subject_id');
+            $table->foreignId( 'organization_id' )->constrained()->onDelete( 'cascade' );
             $table->longText('comment');
             $table->timestamps();
             $table->softDeletes();

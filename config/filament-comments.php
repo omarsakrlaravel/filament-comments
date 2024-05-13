@@ -53,6 +53,7 @@ return [
      * Authenticatable model class
      */
     'authenticatable' => \App\Models\User::class,
+    'organization' => \App\Models\Organization::class,
 
 
     /*

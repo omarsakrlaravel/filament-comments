@@ -11,6 +11,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 use Parallax\FilamentComments\Models\FilamentComment;
+use Filament\Facades\Filament;
 
 class CommentsComponent extends Component implements HasForms
 {
@@ -57,6 +58,7 @@ class CommentsComponent extends Component implements HasForms
             'subject_type' => $this->record->getMorphClass(),
             'comment' => $data['comment'],
             'user_id' => auth()->id(),
+            'organization_id' => Filament::getTenant()->id,
         ]);
 
         Notification::make()

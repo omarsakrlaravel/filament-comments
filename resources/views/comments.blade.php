@@ -31,6 +31,14 @@
                                     <div class="text-xs font-medium text-gray-400 dark:text-gray-500">
                                         {{ $comment->created_at->diffForHumans() }}
                                     </div>
+                                    @php
+                                        $tenant = \Filament\Facades\Filament::getTenant();
+                                    @endphp
+                                    @if($comment->organization && (empty($tenant) || $tenant->id == $comment->organization->id))
+                                        <div class="text-xs font-medium text-gray-400 dark:text-gray-500">
+                                            Organization: {{ $comment->organization->name }}
+                                        </div>
+                                    @endif
                                 </div>
 
                                 @if (auth()->user()->can('delete', $comment))

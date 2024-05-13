@@ -18,6 +18,7 @@ class FilamentComment extends Model
         'user_id',
         'subject_type',
         'subject_id',
+        'organization_id',
         'comment',
     ];
 
@@ -42,6 +43,13 @@ class FilamentComment extends Model
     public function subject(): BelongsTo
     {
         return $this->morphTo();
+    }
+
+    public function organization(): BelongsTo
+    {
+        $organizationClass = config('filament-comments.organization');
+
+        return $this->belongsTo($organizationClass, 'organization_id');
     }
 
     public function prunable(): Builder
