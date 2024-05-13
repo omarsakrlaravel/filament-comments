@@ -31,8 +31,6 @@ class CommentsComponent extends Component implements HasForms
             return $form;
         }
 
-        $tenant = Filament::getTenant();
-
         return $form
             ->schema([
                 Forms\Components\RichEditor::make('comment')
