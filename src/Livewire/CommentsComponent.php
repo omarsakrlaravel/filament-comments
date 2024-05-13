@@ -31,9 +31,9 @@ class CommentsComponent extends Component implements HasForms
         if (!auth()->user()->can('create', FilamentComment::class)) {
             return $form;
         }
-
+    
         $tenant = Filament::getTenant();
-
+    
         return $form
             ->schema([
                 Forms\Components\RichEditor::make('comment')
@@ -42,21 +42,20 @@ class CommentsComponent extends Component implements HasForms
                     ->placeholder(__('filament-comments::filament-comments.comments.placeholder'))
                     ->extraInputAttributes(['style' => 'min-height: 6rem'])
                     ->toolbarButtons(config('filament-comments.toolbar_buttons')),
-
-                Forms\Components\Select::make( 'organization_id' )
-                    ->label( 'Organization' )
+    
+                Forms\Components\Select::make('organization_id')
+                    ->label('Organization')
                     ->required()
                     ->searchable()
                     ->preload()
-                    ->relationship( 'organization', 'name',
-                        modifyQueryUsing: fn( Builder $query ) => $query->where('parent_id', $tenant->id),
+                    ->relationship('organization', 'name', modifyQueryUsing: fn( Builder $query ) => 
+                        $tenant ? $query->where('parent_id', $tenant->id) : $query
                     )
-                    ->hidden( function () use ($tenant) {
-                        return !empty($tenant->parent_id);
-                    } ),
+                    ->hidden( fn() => $tenant ? !empty($tenant->parent_id) : true ),
             ])
             ->statePath('data');
     }
+    
 
     public function create(): void
     {
