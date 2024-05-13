@@ -11,6 +11,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 use Parallax\FilamentComments\Models\FilamentComment;
+use Filament\Facades\Filament;
 
 class CommentsComponent extends Component implements HasForms
 {
