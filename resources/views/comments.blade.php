@@ -28,7 +28,7 @@
                             <div class="flex space-x-2 items-center justify-between">
                                 <div class="flex space-x-2 items-center">
                                     <div class="text-sm font-medium text-gray-950 dark:text-white">
-                                        {{ $comment->user[config('filament-comments.user_name_attribute')] }}
+                                        {{ $comment->user[config('filament-comments.user_name_attribute')] ?? 'Unknown' }}
                                     </div>
 
                                     <div class="text-xs font-medium text-gray-400 dark:text-gray-500">
